@@ -1,0 +1,35 @@
+1.pdfminer.six=> use to data extraction from pdf
+re => used for string operation in code
+
+IronPDF:
+creating PDFs from HTML, URLS, Images…and powerful capabilities to format and edit PDFs.(developers and organizations.)
+
+
+PyPDF4 :
+A Pure-Python library built as a PDF toolkit. It is capable of:
+extracting document information (title, author, …),splitting documents page by page,merging documents page by page,cropping pages,merging multiple pages into a single page,encrypting and decrypting PDF files and more!(simple tasks such as merging and splitting PDFs.)
+
+pdfplumber: This is a library that allows for extracting tables and text from PDFs, it can also extract images and shapes
+
+PyMuPDF: I have saved the best free python pdf library for last! With PyMuPDF not only can you access files with extensions like “.pdf”, “.xps”, “.oxps”, “.cbz”, “.fb2”, “.mobi” or “.epub” but also, about 10 popular image formats can be opened and handled like documents
+
+tabula-py and pdfplumber are focused on table extraction
+
+Other libraries like pdfminer and slate are also popular for more advanced PDF processing tasks like extracting tables and images.
+
+pip install PdfPlumber
+pip install PyPDF4
+pip install pdfminer.six
+pip install --upgrade pymupdf
+
+
+
+
+
+
+
+using PyMuPdf library we can extract all the data like even links inside the pdf related
+
+[{'kind': 2, 'xref': 23, 'from': Rect(96.70999908447266, 87.86102294921875, 176.2779998779297, 100.76202392578125), 'uri': 'tel:+916352485573', 'id': ''}, {'kind': 2, 'xref': 24, 'from': Rect(191.86099243164062, 87.86102294921875, 326.0360107421875, 100.76202392578125), 'uri': 'mailto:yagneshnaidu28@gmail.com', 'id': ''}, {'kind': 2, 'xref': 25, 'from': Rect(341.6189880371094, 87.86102294921875, 379.74798583984375, 100.76202392578125), 'uri': 'https://github.com/yagneshnaidu28', 'id': ''}, {'kind': 2, 'xref': 26, 'from': Rect(395.33099365234375, 87.86102294921875, 439.59600830078125, 100.76202392578125), 'uri': 'https://www.linkedin.com/in/yagnesh-naidu/', 'id': ''}, {'kind': 2, 'xref': 27, 'from': Rect(455.17999267578125, 87.86102294921875, 498.5660095214844, 100.76202392578125), 'uri': 'https://yagnesh-naidu.netlify.app/', 'id': ''}, {'kind': 2, 'xref': 28, 'from': Rect(446.3009948730469, 487.77801513671875, 517.6510009765625, 500.67901611328125), 'uri': 'https://hospital-complaint-management-system.netlify.app/', 'id': ''}, {'kind': 2, 'xref': 29, 'from': Rect(495.81298828125, 549.9450073242188, 517.6510009765625, 562.8460083007812), 'uri': 'https://github.com/yagneshnaidu28/Text-to-Video_generation', 'id': ''}, {'kind': 2, 'xref': 30, 'from': Rect(498.06201171875, 625.6610107421875, 517.6510009765625, 638.56201171875), 'uri': 'https://github.com/ramkamal452/OdooHackathon_T_22', 'id': ''}]
+[{'kind': 2, 'xref': 23, 'from': Rect(96.70999908447266, 87.86102294921875, 176.2779998779297, 100.76202392578125), 'uri': 'tel:+916352485573', 'id': ''}, {'kind': 2, 'xref': 24, 'from': Rect(191.86099243164062, 87.86102294921875, 326.0360107421875, 100.76202392578125), 'uri': 'mailto:yagneshnaidu28@gmail.com', 'id': ''}, {'kind': 2, 'xref': 25, 'from': Rect(341.6189880371094, 87.86102294921875, 379.74798583984375, 100.76202392578125), 'uri': 'https://github.com/yagneshnaidu28', 'id': ''}, {'kind': 2, 'xref': 26, 'from': Rect(395.33099365234375, 87.86102294921875, 439.59600830078125, 100.76202392578125), 'uri': 'https://www.linkedin.com/in/yagnesh-naidu/', 'id': ''}, {'kind': 2, 'xref': 27, 'from': Rect(455.17999267578125, 87.86102294921875, 498.5660095214844, 100.76202392578125), 'uri': 'https://yagnesh-naidu.netlify.app/', 'id': ''}, {'kind': 2, 'xref': 28, 'from': Rect(446.3009948730469, 487.77801513671875, 517.6510009765625, 500.67901611328125), 'uri': 'https://hospital-complaint-management-system.netlify.app/', 'id': ''}, {'kind': 2, 'xref': 29, 'from': Rect(495.81298828125, 549.9450073242188, 517.6510009765625, 562.8460083007812), 'uri': 'https://github.com/yagneshnaidu28/Text-to-Video_generation', 'id': ''}, {'kind': 2, 'xref': 30, 'from': Rect(498.06201171875, 625.6610107421875, 517.6510009765625, 638.56201171875), 'uri': 'https://github.com/ramkamal452/OdooHackathon_T_22', 'id': ''}]
+[]
