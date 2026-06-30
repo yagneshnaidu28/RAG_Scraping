@@ -1,0 +1,278 @@
+Deep learning is a specialized area of machine learning that uses neural networks with multiple layers to automatically learn complex representations from large amounts of data. Natural Language Processing (NLP) is another important area of artificial intelligence that focuses on enabling computers to understand, interpret, and generate human language in tasks such as translation, chatbots, and sentiment analysis.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Langchain Practice and concepts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+LangChain:
+Models: connect our application to llm api (generation layer)
+3 types of models:
+	1.chat/language model: generate text, write code, summarize content
+	2.Embedding Model: convert text into numbers /vectors, used for search in rag, help find similar content
+	3.Multimodal Model:work with more than text, also with images,audio,files
+
+prompts: it is instruction we give to llm what to do , how to respond, what format to use   => better prompt better output
+	1.simple prompt: just a direct instruction
+	2.System + user prompt: modern chats use roles=>system : sets behaviour, user: asks question
+	3.Prompt Templates:instead of writing prompts manually everytime ,we create reusable templates ex: explain{terms}   we send param terms as arguments 
+	4.structured output: in json , bullet points,fixed format
+
+chains: sequence of steps connected together
+	step-1-> step-2-> step-3-> final output
+
+Memory: allows ai system to remember past interactions,
+
+Indexes:allow us to connect external data to an llm , llms only know what they trained on 
+	indexes help use :pdf's,documents,databases,company data,websites
+
+Agents:Agents are ai systems that can decide what action to be taken
+	chains: follow fixed steps 
+	agents: decide next step dynamically
+
+normal llm:user->prompt->response
+
+but agents: searching on web-> doing calculations->calling an api ->using database: for this cannot simply do it we need different tools
+
+
+
+
+
+
+
+
+
+
+
+NLP:tokenization,embeddings
+
+plan of action:
+	1.LLM Foundation
+	2.RAG System
+	3.Agentic AI
+
+
+
+1.LLM: 
+large-trained on huge data
+language-generates humans language (might be programming languages or might be English, Spanish,french,german,latin)
+model:a deep learning neural network system that is learns pattern of data
+
+
+
+
+
+
+
+
+
+
+Gemini:
+
+import google.generativeai as genai
+import os
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+
+model=genai.GenerativeModel("gemini-1.5-flash")
+response=model.generate_content("explain what is LLM In simple fresher level terms")
+
+print(response.text)
+
+
+claude:
+
+import anthropic
+import os 
+
+client=anthropic.Anthropic(api_key=os.enivron["ANTHROPIC_API_KEY"])
+
+response=client.message.create(model="claude-3-5-sonnet-latest",max_tokens=300,messgae=[{"role":"user","content":"explain what is LLM In simple fresher level terms"}])
+
+print(response.content[0].text)
+
+
+
+
+
+
+
+
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<RAG Practice concepts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+problem statement: if i have guides/books of python some 10 books each of 1000 pages if i want to search some topics suppose "pandas" i have to manually look each and every page of each and every file 
+solution: using RAG it makes chunks finds the nearest chunk to that topics pandas search completely into that chunk , then show it to user
+
+technical words: document retrieval using llm 
+
+
+
+problems and solutions way of explanation:
+if we have some pdf files, excel files or someother files related to our company or some project through direct apps interface it might take long time to upload and make understand of llm, because if llm dont have access to files and we wanted to work with it llm will give many hallucinations .
+and also if we give that much data at once llm cannot handle so we make them chunks and store it in some db like vectordb chromadb,
+so to overcome all this process we use process called Retrieval-Augmented Generation(RAG).
+
+through which we can extract data from pdf or files, convert data to embeddings , store those numerical vectors(embeddings).into some db vectordb(like chromadb,pinecone),ask llm for answer to our query or question. 	
+
+RAG-it is a concept/technique , Langchain - tool/framework to build RAG
+
+other tools/framework to build RAG:
+			LlamaIndex,
+			LangGraph,
+			Langflow/Flowise(Low-code/No-code drag-and-drop UI builders),
+			CrewAI(Multi-agent RAG workflow frameworks)
+
+RAG Pipeline structure:
+
+File ----> Chunks ()--> Embeddings (Numbers) --> Vector DB (Store)--> LLM (Answer).
+
+
+
+
+Development Plan:
+	1.user uploads files
+	2.system loads documents into document loaders (Convert raw files into document objects that can be processed.)
+	3.Text Splitting (Chunking)[documents are usually too large for LLM context windows.So we split them into smaller chunks.]
+	4.Embedding Generation(Each chunk is converted into a vector embedding.Embedding models transform text into numerical vectors)These vectors 	represent semantic meaning.
+	5.Vector Database Storage:All embeddings are stored inside a vector database.(embeddings,original text chunks,metadata)
+	6.query->query embedding->similarity search->The retriever selects the top-k relevant chunks.These chunks form the context.->Based on the context 	the LLM answers.
+
+
+
+
+RAG: 4 main process     document loader->text splitter->database->retrievers
+
+most of the embedding and language models have context window which cannot take infinite tokens at same time so we use chunks,Smaller chunks allow the system to retrieve only the most relevant piece of information instead of the whole document.Large documents would make the pipeline slower and expensive.
+Text Splitter:
+we are going to see 3 types of text splitting methods. 
+1.Character - Based Splitting 
+	Character-based splitting is the simplest method of text splitting.It divides a large document into smaller chunks based on the number of 	characters, without understanding words, tokens, or meaning.
+2.Token-Based Splitting
+	Token-based splitting divides a document into chunks based on the number of tokens, not characters.Since LLMs process tokens instead of words, this 	method aligns better with how models actually read text.
+3.Semantic / Meaning-Based Splitting
+	Semantic / Meaning-Based Splitting divides a document into chunks based on the meaning and structure of the text, rather than characters or tokens.
+	The goal is to keep complete ideas together so that each chunk contains a coherent piece of information.
+
+
+
+pdf------> 100 of chunks like chunk1,chunk2,chunk3..................--------->stored in vectordb------------> user query----------> convert into embeddings-------> using algos search them in file and show them.
+
+
+Where as vector store use Approximate Nearest Neighbour
+algorithms like - 
+HNSW
+IVF
+PQ 
+
+IVF (Inverted File Index) - Lets say we divide our Database in 5 clusters using k-means or any other algo. so each will have 20000 embeddings and all of them have some sort of similarity.
+
+
+Now there are many Vector stores like 
+These are widely used with frameworks like LangChain and LlamaIndex.
+Chroma
+FAISS
+Annoy 
+
+
+Retrievers:A retriever takes a user query and returns the most relevant documents or chunks from a database.
+Now there are 2 types of retriever 
+	by data source (Wikipedia, Arxiv, PubMed, etc.)
+	By retrieval strategy (Similarity, MMR, MultiQuery, etc.) 
+
+by data source:
+When we talk about retrievers using data sources, we mean retrievers that fetch information from specific external sources or databases instead of your 
+own vector store. These retrievers connect to APIs or datasets and return relevant documents for the query.
+
+
+By retrieval strategy:
+In most RAG (Retrieval-Augmented Generation) systems, retrievers mainly use three core retrieval strategies. These are the ones you’ll see most often in real projects and tutorials.
+	Similarity Search (Most Common)
+		Cosine similarity (most common)
+		Dot product
+		Euclidean distance
+		The retriever finds the most similar vectors.
+		Top-K documents are retrieved
+
+	MMR (Max Marginal Relevance):
+		Imagine you are building a RAG system for your students.Your knowledge base contains many chunks about Gradient Descent.Your database chunks 		look like this:
+		Search Strategies - MMR (maximum marginal relevance)
+		Chunk 1: Gradient descent is an optimization algorithm used in machine learning.
+		Chunk 2: Gradient descent minimizes the loss function.
+		Chunk 3: Gradient descent  is an optimization that minimizes the loss function.
+		Chunk 4: Neural networks use gradient descent for training.
+		Chunk 5: Support Vector Machines are supervised learning algorithms.
+		
+		Its goal is to balance two things:
+			Relevance to the query
+			Diversity among retrieved documents
+
+	MultiQuery Retriever
+
+		So Instead of using one query, it generates multiple variations of the query using  an LLM. so now the pipeline becomes 
+			User Query->LLM generates multiple queries->Retriever searches for each query->Combine all retrieved documents
+
+
+
+
+
+
+
+Feature             Normal Database                             Vector Database
+------------------------------------------------------------------------------------------------------
+Data stored         Structured data (text, numbers, rows)       Embeddings (vectors like [0.23, -0.41, ...])
+Search type         Exact match                                 Similarity search
+Query example       WHERE movie = "Interstellar"                "movies about space travel"
+Indexing            B-Tree, Hash                                HNSW, IVF, PQ
+Use case            Banking, user records, transactions         AI search, recommendations, RAG
+Comparison method   Equality or filtering                       Cosine similarity / vector distance
+
+
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<RAG Interview Questions and Answers>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+1. what is difference between normal database and vector database
+2.how many atmost chunks created?
+3.what are embeddings?
+4. what is source of data collection?
+5. which format data is collected?
+6. structured vs unstructured data 
+7. data cleaning and noise removal
+
+
+8.why chunking ?
+9. what is chunking size?
+10.chunks overlapping means?
+11.Large chunks vs small chunks
+12.fixed vs dynamic chunks?
+
+
+
+13.what is embedding?
+14. embedding vs token?
+15.dimension size of embedding 
+16. what model is used? what are max tokens used in model?
+
+17.vector db why to use?
+18.what db to use?
+19.indexing what is use of it ?
+20. query embedding ? which model? if same why ?
+
+21. retrieval method? similarity search ? hybrid method ? why ?
+22. what is meant by top-k?
+
+23.prompt construction ? how many chunks? templates?
+24.llm generation ? hallucination? if retrieval failure why ?
+25.evaluation?what tools used ? how performance is measured?
+
+
+
