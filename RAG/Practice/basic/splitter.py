@@ -1,7 +1,7 @@
 """ CharacterTextSplitter """
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-from langchain_text_splitters import CharacterTextSplitter,TokenTextSplitter
+from langchain_text_splitters import CharacterTextSplitter,TokenTextSplitter,RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader,PyPDFLoader
 
 
@@ -23,12 +23,29 @@ for i in chunks:
 
 
 """ Token-based Splitting """
-data=PyPDFLoader(r"C:\Users\LENOVO\Downloads\All_Practices\RAG_Scraping\RAG\Langchain_RAG_Concepts\document loaders\GRU.pdf")
-docs=data.load()
+# data=PyPDFLoader("../document_loaders/GRU.pdf")
+""" docs=data.load()
 splitter=TokenTextSplitter(
     chunk_size=10,
     chunk_overlap=1,
 )
 chunks=splitter.split_documents(docs)
-print(chunks[100].page_content)
+print(chunks[100].page_content) """
 
+
+
+
+""" Meaning/semantic-Based Splitting(RecursiveCharacterTextSplitter) """
+
+
+loader=PyPDFLoader("../document_loaders/GRU.pdf")
+docs=loader.load()
+text_splitter=RecursiveCharacterTextSplitter(
+    chunk_size=100,
+    chunk_overlap=20,
+    length_function=len,
+    is_separator_regex=False,
+)
+texts=text_splitter.split_documents(docs)
+print(texts[0].page_content)
+print(texts[10].page_content)
