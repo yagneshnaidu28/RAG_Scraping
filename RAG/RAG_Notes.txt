@@ -199,6 +199,10 @@ In most RAG (Retrieval-Augmented Generation) systems, retrievers mainly use thre
 		The retriever finds the most similar vectors.
 		Top-K documents are retrieved
 
+
+so basically in similarity search => finds most similar chunks to query embedding and gives chunks which are similar but cannot aggregate them like 
+
+
 	MMR (Max Marginal Relevance):
 		Imagine you are building a RAG system for your students.Your knowledge base contains many chunks about Gradient Descent.Your database chunks 		look like this:
 		Search Strategies - MMR (maximum marginal relevance)
@@ -212,13 +216,24 @@ In most RAG (Retrieval-Augmented Generation) systems, retrievers mainly use thre
 			Relevance to the query
 			Diversity among retrieved documents
 
+
+
+	actually our similarity_search finds first 3 which are common but not semanitcally which using mmr we can overcome like in this case it will retrieve chunk1,chunk2,chunk3 using similarity_search. but using mmr it will parse through all chunks and find the semantically more similar one 
+	like if the question is what is gradient descent-> it will first ->it will try with different semantic type of question like it changes question to explain gradient descent , how does gradient descent 
+	which will make retrievers more efficient and diverse
+
 	MultiQuery Retriever
 
 		So Instead of using one query, it generates multiple variations of the query using  an LLM. so now the pipeline becomes 
 			User Query->LLM generates multiple queries->Retriever searches for each query->Combine all retrieved documents
 
 
+		chunk1:gradient descent is an optimization algorithm used to minimize loss functions
+		chunk2:neural networks are trained using optimization algorithms like gradient descent 
+		chunk3:weight updates in machine learning models are done using gradient descent
+		chunk4:support vector machines are supervised learning algorithms
 
+		now if we question "what is gradient descent " it will retrieve chunk1 and chunk3 (most similar in case of semantic also)
 
 
 
@@ -231,6 +246,24 @@ Query example       WHERE movie = "Interstellar"                "movies about sp
 Indexing            B-Tree, Hash                                HNSW, IVF, PQ
 Use case            Banking, user records, transactions         AI search, recommendations, RAG
 Comparison method   Equality or filtering                       Cosine similarity / vector distance
+
+
+
+
+
+
+vectorstores cannot be invoked i mean cannot be runnables
+but retrievers are runnables and invokable
+
+vectorstores only has similarity_search but whereas other retrievings uses mmr and mutliquery retriever.
+
+
+
+
+
+
+
+
 
 
 
