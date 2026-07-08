@@ -32,25 +32,10 @@ llm = ChatMistralAI(model="mistral-small-latest")
 #prompt template 
 prompt = ChatPromptTemplate.from_messages(
     [
-        (
-            "system",
-            """You are a helpful AI assistant.
-
-Use ONLY the provided context to answer the question.
-
-If the answer is not present in the context,
-say: "I could not find the answer in the document."
-"""
-        ),
-        (
-            "human",
-            """Context:
-{context}
-
-Question:
-{question}
-"""
-        )
+        ("system","""You are a helpful AI assistant.Use ONLY the provided context to answer the question.If the answer is not present in the context,say: "I could not find the answer in the document."""),
+        ("human",
+        """Context:{context}
+        Question:{question}""")
     ]
 )
 
@@ -64,7 +49,7 @@ while True:
         break 
     
     docs = retriever.invoke(query)
-    print(f"[System: Retrieved {len(docs)} document chunks]")
+    # print(f"[System: Retrieved {len(docs)} document chunks]")
     for d in docs:
         print(d.page_content)
     context = "\n\n".join(
