@@ -259,16 +259,81 @@ vectorstores only has similarity_search but whereas other retrievings uses mmr a
 
 
 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<RAG Practical using local pdf for more understanding>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+=>first read pdf -> 
+
+from langchain_community.document_loaders import pypdfloader
+loader=pypdfloader("pdf.pdf")
+docs=loader.load()
+
+now our complete pdf is in docs variable
+
+=>splitting the chunks->
+splits using recursivetextsplitter
+here we need to decide chunk_size and chunk_overlap
+splitter=recurisecharactertextsplitter(
+	chunk_size=1000,
+	chunk_overlap=200
+	)
+	
+	chunks=splitter.split_documents(docs)
+
+=> we have chunks store them to vectordb using embeddings like chunks makes the text breaks but whereas embeddings makes them vectors
+
+
+embedding_model=mistralaiembeddings()
+#declaring which embedding to use 
+from lanchain_community.Chroma import Chroma
+
+vectorstore=Chroma.from_documents(
+	documents=chunks,
+	embedding=embedding_model, #or directly assign mistralaiembeddings() here only
+	persistent_directory="resume-db")
+	
+	#here document is input documents which we splitted 
+	#embedding is embedding model which we need to use for embeddings
+	#persistent_directory will be the directory where database will be created
+
+---------------till here we completed extraction of data from our documents splitted(chunked), embedded and stored to database--------------
+
+
+#now we need to use retriever to retrieve data and using help of llm,and answer the question (which looks like a prompt)
+
+retriever=vectorstore.as_retriever(
+	search_type="mmr",
+	search_kwargs={
+		"k":5,
+		"fetch_k":10,
+		"lambda_mult"=0.5
+		}
+	)
+	
+	
+	
+#we got vectors,retriever , embeddings ,we need llm and prompt questioning but we use prompt template which will already contains some needed things which we use as prompt to declare to follow specific rules
+
+from dotenv import load_dotenv
+load_dotenv()
+llm=chatmistralai(model="mistral-small-latest")
+
+
+query=("what is deep learning?")
+docs=retriever.invoke(query)
+context="\n\n".join([d.page_content for d in docs])
+
+
+prompttemplate=ChatPromptTemplate.from_messages([("system","you are just assistant to assist"),("human",'''Context:{context} question:{Question})])
 
 
 
+final_prompt=promptTemplate.invoke({
+	"context":context,
+	"question":query})
 
+# so thata the context contains the all the page_content retrieved by our retriever will give that information to llm as a context it is simply saying to use this context only like this is filtered data from all database we will send this context and question to prompt
 
-
-
-
-
-
+response=llm.invoke(final_prompt)
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<RAG Interview Questions and Answers>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -306,6 +371,82 @@ vectorstores only has similarity_search but whereas other retrievings uses mmr a
 23.prompt construction ? how many chunks? templates?
 24.llm generation ? hallucination? if retrieval failure why ?
 25.evaluation?what tools used ? how performance is measured?
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Doubts Questions and Answers>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. we have different rag like naive rag,advance rag, multimodal rag,graph rag,self,rag,corrective rag,agentic rag , will we use langchain to build all these rags or a different just give me if different their names?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<RAG Project Ideas>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+RAG Projects 2026
+Here’s how you can translate these complex pipeline architectures into high-impact, results-oriented bullet points tailored for resume.
+
+
+1. Multilingual RAG Pipeline
+
+Engineered a multilingual Retrieval-Augmented Generation (RAG) pipeline using cross-lingual embeddings to enable semantic search across multiple global languages within a unified vector space.
+Optimized multilingual retrieval workflows to preserve semantic consistency and improve cross-language query accuracy at scale.
+Reduced translation dependency and semantic drift, enabling accurate retrieval from a centralized knowledge base for multilingual users.
+
+2. Agentic RAG Pipeline
+Developed an autonomous Agentic RAG system with LLM tool-calling capabilities for dynamic retrieval, reasoning, and self-correction workflows.
+Implemented intelligent routing logic enabling the system to choose between vector search, SQL queries, and live web retrieval based on query context.
+Improved factual accuracy and reduced hallucinations through iterative validation and automated decision-making pipelines.
+
+3. GraphRAG Pipeline
+Architected an enterprise-grade GraphRAG pipeline integrating knowledge graphs with LLMs to enable relationship-aware semantic retrieval.
+Built entity extraction and graph-linking workflows to uncover hidden dependencies within complex unstructured datasets.
+Enhanced deep-search precision for financial and legal analysis by combining graph databases with contextual LLM reasoning.
+
+4. RLHF Alignment Pipeline
+Built a Reinforcement Learning from Human Feedback (RLHF) pipeline to align LLM outputs with safety policies, behavioral objectives, and human preferences.
+Optimized reward modeling and distributed preference-training workflows for scalable alignment experimentation.
+Improved response safety, instruction-following accuracy, and multi-turn conversational reliability for production-ready deployment.
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Important Commands for checking things>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+pip list   # is used to find the available libraries in the current working directory
+uv pip install -r requirements.txt    # for fast installation of libraries which are available in requirements.txt
+
+
+
+
+
+
 
 
 

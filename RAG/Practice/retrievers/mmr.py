@@ -41,5 +41,13 @@ mmr_retriever=vectorstore.as_retriever(
 )
 mmr_docs=mmr_retriever.invoke("what is gradient descent")
 
-for docs in mmr_docs:
-    print(docs.page_content)
+# for docs in mmr_docs:
+#     print(docs.page_content)
+
+
+
+print("=================context of retriever================")
+
+context="\n\n".join([d.page_content for d in docs])
+
+print(context)

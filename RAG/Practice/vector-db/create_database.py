@@ -84,3 +84,5 @@ vectorstore =Chroma.from_documents(
     embedding=MistralAIEmbeddings(),
     persist_directory="chroma_db"
 )
+
+
