@@ -1,4 +1,6 @@
-Deep learning is a specialized area of machine learning that uses neural networks with multiple layers to automatically learn complex representations from large amounts of data. Natural Language Processing (NLP) is another important area of artificial intelligence that focuses on enabling computers to understand, interpret, and generate human language in tasks such as translation, chatbots, and sentiment analysis.
+Deep learning is a specialized area of machine learning that uses neural networks with multiple layers to automatically learn complex representations 
+from large amounts of data. Natural Language Processing (NLP) is another important area of artificial intelligence that focuses on enabling computers 
+to understand, interpret, and generate human language in tasks such as translation, chatbots, and sentiment analysis.
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Langchain Practice and concepts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -12,7 +14,8 @@ Models: connect our application to llm api (generation layer)
 prompts: it is instruction we give to llm what to do , how to respond, what format to use   => better prompt better output
 	1.simple prompt: just a direct instruction
 	2.System + user prompt: modern chats use roles=>system : sets behaviour, user: asks question
-	3.Prompt Templates:instead of writing prompts manually everytime ,we create reusable templates ex: explain{terms}   we send param terms as arguments 
+	3.Prompt Templates:instead of writing prompts manually everytime ,we create reusable templates ex: explain{terms}   we send param terms as 
+arguments 
 	4.structured output: in json , bullet points,fixed format
 
 chains: sequence of steps connected together
@@ -83,7 +86,8 @@ import os
 
 client=anthropic.Anthropic(api_key=os.enivron["ANTHROPIC_API_KEY"])
 
-response=client.message.create(model="claude-3-5-sonnet-latest",max_tokens=300,messgae=[{"role":"user","content":"explain what is LLM In simple fresher level terms"}])
+response=client.message.create(model="claude-3-5-sonnet-latest",max_tokens=300,messgae=[{"role":"user","content":"explain what is LLM In simple 
+fresher level terms"}])
 
 print(response.content[0].text)
 
@@ -106,7 +110,8 @@ print(response.content[0].text)
 
 
 
-problem statement: if i have guides/books of python some 10 books each of 1000 pages if i want to search some topics suppose "pandas" i have to manually look each and every page of each and every file 
+problem statement: if i have guides/books of python some 10 books each of 1000 pages if i want to search some topics suppose "pandas" i have to 
+manually look each and every page of each and every file 
 solution: using RAG it makes chunks finds the nearest chunk to that topics pandas search completely into that chunk , then show it to user
 
 technical words: document retrieval using llm 
@@ -114,11 +119,13 @@ technical words: document retrieval using llm
 
 
 problems and solutions way of explanation:
-if we have some pdf files, excel files or someother files related to our company or some project through direct apps interface it might take long time to upload and make understand of llm, because if llm dont have access to files and we wanted to work with it llm will give many hallucinations .
+if we have some pdf files, excel files or someother files related to our company or some project through direct apps interface it might take long 
+time to upload and make understand of llm, because if llm dont have access to files and we wanted to work with it llm will give many hallucinations .
 and also if we give that much data at once llm cannot handle so we make them chunks and store it in some db like vectordb chromadb,
 so to overcome all this process we use process called Retrieval-Augmented Generation(RAG).
 
-through which we can extract data from pdf or files, convert data to embeddings , store those numerical vectors(embeddings).into some db vectordb(like chromadb,pinecone),ask llm for answer to our query or question. 	
+through which we can extract data from pdf or files, convert data to embeddings , store those numerical vectors(embeddings).into some db 
+vectordb(like chromadb,pinecone),ask llm for answer to our query or question. 	
 
 RAG-it is a concept/technique , Langchain - tool/framework to build RAG
 
@@ -139,29 +146,37 @@ Development Plan:
 	1.user uploads files
 	2.system loads documents into document loaders (Convert raw files into document objects that can be processed.)
 	3.Text Splitting (Chunking)[documents are usually too large for LLM context windows.So we split them into smaller chunks.]
-	4.Embedding Generation(Each chunk is converted into a vector embedding.Embedding models transform text into numerical vectors)These vectors 	represent semantic meaning.
+	4.Embedding Generation(Each chunk is converted into a vector embedding.Embedding models transform text into numerical vectors)These vectors 	
+represent semantic meaning.
 	5.Vector Database Storage:All embeddings are stored inside a vector database.(embeddings,original text chunks,metadata)
-	6.query->query embedding->similarity search->The retriever selects the top-k relevant chunks.These chunks form the context.->Based on the context 	the LLM answers.
+	6.query->query embedding->similarity search->The retriever selects the top-k relevant chunks.These chunks form the context.->Based on the 
+context 	the LLM answers.
 
 
 
 
 RAG: 4 main process     document loader->text splitter->database->retrievers
 
-most of the embedding and language models have context window which cannot take infinite tokens at same time so we use chunks,Smaller chunks allow the system to retrieve only the most relevant piece of information instead of the whole document.Large documents would make the pipeline slower and expensive.
+most of the embedding and language models have context window which cannot take infinite tokens at same time so we use chunks,Smaller chunks allow 
+the system to retrieve only the most relevant piece of information instead of the whole document.Large documents would make the pipeline slower and 
+expensive.
 Text Splitter:
 we are going to see 3 types of text splitting methods. 
 1.Character - Based Splitting 
-	Character-based splitting is the simplest method of text splitting.It divides a large document into smaller chunks based on the number of 	characters, without understanding words, tokens, or meaning.
+	Character-based splitting is the simplest method of text splitting.It divides a large document into smaller chunks based on the number of 	
+characters, without understanding words, tokens, or meaning.
 2.Token-Based Splitting
-	Token-based splitting divides a document into chunks based on the number of tokens, not characters.Since LLMs process tokens instead of words, this 	method aligns better with how models actually read text.
+	Token-based splitting divides a document into chunks based on the number of tokens, not characters.Since LLMs process tokens instead of words, 
+this 	method aligns better with how models actually read text.
 3.Semantic / Meaning-Based Splitting
-	Semantic / Meaning-Based Splitting divides a document into chunks based on the meaning and structure of the text, rather than characters or tokens.
+	Semantic / Meaning-Based Splitting divides a document into chunks based on the meaning and structure of the text, rather than characters or 
+tokens.
 	The goal is to keep complete ideas together so that each chunk contains a coherent piece of information.
 
 
 
-pdf------> 100 of chunks like chunk1,chunk2,chunk3..................--------->stored in vectordb------------> user query----------> convert into embeddings-------> using algos search them in file and show them.
+pdf------> 100 of chunks like chunk1,chunk2,chunk3..................--------->stored in vectordb------------> user query----------> convert into 
+embeddings-------> using algos search them in file and show them.
 
 
 Where as vector store use Approximate Nearest Neighbour
@@ -170,7 +185,8 @@ HNSW
 IVF
 PQ 
 
-IVF (Inverted File Index) - Lets say we divide our Database in 5 clusters using k-means or any other algo. so each will have 20000 embeddings and all of them have some sort of similarity.
+IVF (Inverted File Index) - Lets say we divide our Database in 5 clusters using k-means or any other algo. so each will have 20000 embeddings and all 
+of them have some sort of similarity.
 
 
 Now there are many Vector stores like 
@@ -186,12 +202,14 @@ Now there are 2 types of retriever
 	By retrieval strategy (Similarity, MMR, MultiQuery, etc.) 
 
 by data source:
-When we talk about retrievers using data sources, we mean retrievers that fetch information from specific external sources or databases instead of your 
+When we talk about retrievers using data sources, we mean retrievers that fetch information from specific external sources or databases instead of 
+your 
 own vector store. These retrievers connect to APIs or datasets and return relevant documents for the query.
 
 
 By retrieval strategy:
-In most RAG (Retrieval-Augmented Generation) systems, retrievers mainly use three core retrieval strategies. These are the ones you’ll see most often in real projects and tutorials.
+In most RAG (Retrieval-Augmented Generation) systems, retrievers mainly use three core retrieval strategies. These are the ones you’ll see most often 
+in real projects and tutorials.
 	Similarity Search (Most Common)
 		Cosine similarity (most common)
 		Dot product
@@ -204,7 +222,8 @@ so basically in similarity search => finds most similar chunks to query embeddin
 
 
 	MMR (Max Marginal Relevance):
-		Imagine you are building a RAG system for your students.Your knowledge base contains many chunks about Gradient Descent.Your database chunks 		look like this:
+		Imagine you are building a RAG system for your students.Your knowledge base contains many chunks about Gradient Descent.Your database 
+chunks 		look like this:
 		Search Strategies - MMR (maximum marginal relevance)
 		Chunk 1: Gradient descent is an optimization algorithm used in machine learning.
 		Chunk 2: Gradient descent minimizes the loss function.
@@ -218,8 +237,10 @@ so basically in similarity search => finds most similar chunks to query embeddin
 
 
 
-	actually our similarity_search finds first 3 which are common but not semanitcally which using mmr we can overcome like in this case it will retrieve chunk1,chunk2,chunk3 using similarity_search. but using mmr it will parse through all chunks and find the semantically more similar one 
-	like if the question is what is gradient descent-> it will first ->it will try with different semantic type of question like it changes question to explain gradient descent , how does gradient descent 
+	actually our similarity_search finds first 3 which are common but not semanitcally which using mmr we can overcome like in this case it will 
+retrieve chunk1,chunk2,chunk3 using similarity_search. but using mmr it will parse through all chunks and find the semantically more similar one 
+	like if the question is what is gradient descent-> it will first ->it will try with different semantic type of question like it changes question 
+to explain gradient descent , how does gradient descent 
 	which will make retrievers more efficient and diverse
 
 	MultiQuery Retriever
@@ -311,7 +332,8 @@ retriever=vectorstore.as_retriever(
 	
 	
 	
-#we got vectors,retriever , embeddings ,we need llm and prompt questioning but we use prompt template which will already contains some needed things which we use as prompt to declare to follow specific rules
+#we got vectors,retriever , embeddings ,we need llm and prompt questioning but we use prompt template which will already contains some needed things 
+which we use as prompt to declare to follow specific rules
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -331,9 +353,65 @@ final_prompt=promptTemplate.invoke({
 	"context":context,
 	"question":query})
 
-# so thata the context contains the all the page_content retrieved by our retriever will give that information to llm as a context it is simply saying to use this context only like this is filtered data from all database we will send this context and question to prompt
+# so thata the context contains the all the page_content retrieved by our retriever will give that information to llm as a context it is simply 
+saying to use this context only like this is filtered data from all database we will send this context and question to prompt
 
 response=llm.invoke(final_prompt)
+
+
+
+
+Runnables:
+The issue was that each of them had their own SDK, their own syntax, and their own way of calling the model.Because of this, if you built your 
+project using one provider, like OpenAI, and later decided to switch to something like Gemini or Claude, you basically had to rewrite a large part of 
+your code. That was frustrating 
+and time-consuming.
+
+Langchain provides a unified interface that means no matter which llm you use ,way you write code almost remains same , just changes the model.
+You have:
+•some kind of input processing
+•then a prompt template
+•then the LLM call
+•and then an output parser
+At this point, you can clearly see that your application is no longer just a single model call.Now you have multiple components involved things like 
+LLMs, prompt templates, output parsers, and even custom logic in between.And all of these components need to work together in a proper sequence to 
+give you the final result.
+
+
+They made our code cleaner, reduced repetition, and allowed us to connect multiple components into a single pipeline.So now if you look at this, even 
+though we are using better components like prompt templates, models, and output parsers… we are still doing everything manually.
+We have to:
+•format the prompt
+•call the model
+•parse the output
+
+
+as problems gets increased more chains  got developed like , different type of chains:
+1.LLMChain- for simple prompt+ model tasks
+2.Sequetial Chain-for multi-step workflows 
+3.routerchain-for dynamic decision making 
+4.RetrievalQA Chain- for rag -based application
+
+
+Langchain version 1.0 contains chains but version 2.0 contains runnables but not chains , but in version 3.0 chains and runnables are both introduced 
+again.
+invoke()This is used to run the component on a single input and get the output.
+batch() when you want to process multiple inputs at once
+stream() when you want to get output token by token like real-time responses
+
+
+
+Actual Runnables
+These are your components/runnables:
+•LLM
+•Prompt Template
+•Output Parser
+•Retriever
+•Tools
+
+
+
+
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<RAG Interview Questions and Answers>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -376,11 +454,14 @@ response=llm.invoke(final_prompt)
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Doubts Questions and Answers>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-1. we have different rag like naive rag,advance rag, multimodal rag,graph rag,self,rag,corrective rag,agentic rag , will we use langchain to build all these rags or a different just give me if different their names?
+1. we have different rag like naive rag,advance rag, multimodal rag,graph rag,self,rag,corrective rag,agentic rag , will we use langchain to build 
+all these rags or a different just give me if different their names?
 
 
 
 
+
+2.
 
 
 
@@ -415,7 +496,8 @@ Here’s how you can translate these complex pipeline architectures into high-im
 
 1. Multilingual RAG Pipeline
 
-Engineered a multilingual Retrieval-Augmented Generation (RAG) pipeline using cross-lingual embeddings to enable semantic search across multiple global languages within a unified vector space.
+Engineered a multilingual Retrieval-Augmented Generation (RAG) pipeline using cross-lingual embeddings to enable semantic search across multiple 
+global languages within a unified vector space.
 Optimized multilingual retrieval workflows to preserve semantic consistency and improve cross-language query accuracy at scale.
 Reduced translation dependency and semantic drift, enabling accurate retrieval from a centralized knowledge base for multilingual users.
 
@@ -430,7 +512,8 @@ Built entity extraction and graph-linking workflows to uncover hidden dependenci
 Enhanced deep-search precision for financial and legal analysis by combining graph databases with contextual LLM reasoning.
 
 4. RLHF Alignment Pipeline
-Built a Reinforcement Learning from Human Feedback (RLHF) pipeline to align LLM outputs with safety policies, behavioral objectives, and human preferences.
+Built a Reinforcement Learning from Human Feedback (RLHF) pipeline to align LLM outputs with safety policies, behavioral objectives, and human 
+preferences.
 Optimized reward modeling and distributed preference-training workflows for scalable alignment experimentation.
 Improved response safety, instruction-following accuracy, and multi-turn conversational reliability for production-ready deployment.
 
@@ -450,3 +533,113 @@ uv pip install -r requirements.txt    # for fast installation of libraries which
 
 
 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Langgraph>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+While traditional LangChain runs in a straight line (Step 1 → Step 2 → Step 3 → Done), LangGraph allows your program to make decisions, loop back, 
+re-try steps, and remember what happened earlier.
+The 3 Core Pillars of LangGraph:
+1. State (The Shared Memory)
+2. Nodes (The Workers / Actions)
+3. Edges (The Pathways & Decisions)
+
+
+Graph DB:
+A Graph DB in RAG (GraphRAG) solves this by extracting entities (people, places, concepts) and their explicit connections, allowing the LLM to follow 
+relationships across multiple documents.
+Lowers hallucination because connections are explicitly defined facts.Finds interconnected entities and traces multihop relationships.
+
+
+
+Extraction (Ingestion): An LLM reads raw text and extracts structured facts into a Knowledge Graph.
+
+Example Text: "Elon Musk leads Tesla, which manufactures the Cybertruck."     Graph Extracted: (Elon Musk) -[LEADS]-> (Tesla) -[MANUFACTURES]-> 
+(Cybertruck)
+Vector Search: To fetch relevant semantic text chunks.
+
+Graph Search (Cypher/Graph Query): To fetch connected entities and multi-step relationships.
+
+Hybrid Retrieval: When a user asks a question, the system queries both: Vector Search + Graph Search
+
+
+
+Seven principles to improving latency [latency is time difference between users query time to ai response time]
+
+Process tokens faster.
+Generate fewer tokens.
+Use fewer input tokens.
+Make fewer requests.
+Parallelize.
+Make your users wait less.
+Don’t default to an LLM.
+
+
+Inference speed is probably the first thing that comes to mind when addressing latency 
+This refers to the actual rate at which the LLM processes tokens, and is often measured in TPM (tokens per minute) or TPS (tokens per second).
+using a longer, more detailed prompt,
+adding (more) few-shot examples, or
+fine-tuning / distillation.
+
+
+Generate fewer tokens:cutting 50% of your output tokens may cut ~50% of your latency, generating structured output, try to minimize your output 
+syntax 
+
+Use fewer input tokens:cutting 50% of your prompt may only result in a 1–5% latency improvement,Fine-tuning the model, to replace the need for 
+lengthy instructions / examples.
+Filtering context input, like pruning RAG results, cleaning HTML, etc.
+Maximize shared prompt prefix
+
+Make fewer requests:putting them in a single prompt and getting them all in a single response
+Parallelize:Parallel processing can be powerful when performing multiple steps with an LLM.
+
+• Use Smaller Models
+• Optimize Prompt Size
+• Caching Responses
+• Asynchronous Processing
+• Efficient Retrieval
+• Parallel Processing
+• Edge Deployment
+
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<AI Agents>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+An AI agent perceives user goals, autonomously decides which tools to execute in sequence, and performs multi-step real-world actions to solve a task.
+
+
+A bot follows predefined, rule-based scripts to perform specific repetitive tasks, whereas an AI agent uses reasoning to autonomously plan, adapt, 
+and execute multi-step actions using external tools to achieve dynamic goals.
+
+It demonstrates the fundamental ReAct (Reasoning + Acting) loop: the LLM receives a prompt, decides to execute external functions (tools), parses the 
+results, and loops until the final answer is generated.
+
+ai agents is when user asks some query we fetch the data related to query by refining expected input send it to ai for more reasoning which includes 
+their reasoning and explanation.it extracts information from database and reason it based on realtime changes in database.
+
+example: in order tracking agent if order has reached some place if user asks for query where is my order then agent should be capable of first 
+fetching information from database , if needed due to any climatic issues or any other issues can be reasoned by fetching it to reached instance.
+
+steps of algorithm :
+
+1.fetch user query if it is matching our requirements decide which data to extract from database, after extracting data refine it further , now 
+reason the data , if any checkings needed check them once . after checking just verify it then display it to user .
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Agentic AI >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Observe -> Reason -> Plan -> Act-> Reflect.
+
+
+The 4 Core Pillars of Agentic AI
+Planning & Decomposition	Breaking a complex user goal into smaller, manageable sub-tasks.
+Memory	        Retaining short-term working context and long-term historical knowledge.
+Tool Use (Grounding)	Overcoming LLM limits (hallucination, knowledge cutoff, math limits) via external APIs.
+Self-Reflection & Error Recovery	Evaluating whether a step succeeded and adjusting the plan if it failed.
+
+
+
+Multi-Agent Collaboration: Multiple specialized agents (e.g., Researcher, Coder, Reviewer) work together, passing state and critiquing each other's outputs.
+
+
+Agentic AI is the autonomous decision-making brain that reasons and plans to achieve goals, while an MCP server is the standardized plug-and-play connector (the USB port) that securely exposes tools, files, and data for the agent to use.
